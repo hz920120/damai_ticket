@@ -241,8 +241,11 @@ class Concert(object):
 
 if __name__ == '__main__':
     try:
-        with open('./config.json', 'r', encoding='utf-8') as f:
-            config = loads(f.read())
+        with open('./a.json') as f:
+            content = f.read()
+            if content.startswith(u'\ufeff'):
+                content = content.encode('utf8')[3:].decode('utf8')
+            config = loads(content)
             # params: 场次优先级，票价优先级，实名者序号, 用户昵称， 购买票数， 官网网址， 目标网址, 浏览器驱动地址
         con = Concert(config['sess'], config['price'], config['real_name'], config['nick_name'], config['ticket_num'], config['damai_url'], config['target_url'], config['driver_path'])
         con.enter_concert() #进入到具体抢购页面
